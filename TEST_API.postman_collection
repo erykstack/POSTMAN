@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "7aee61da-50ea-49fc-a4cd-356ea15ec58e",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49469631",
+		"_collection_link": "https://www.postman.com/niezaposiadam-8010046/workspace/api-test/collection/49469631-7aee61da-50ea-49fc-a4cd-356ea15ec58e?action=share&source=collection_link&creator=49469631"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"first_name\": \"Eryk\",\r\n        \"last_name\": \"Wiwer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
