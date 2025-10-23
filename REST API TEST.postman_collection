@@ -1,0 +1,294 @@
+{
+	"info": {
+		"_postman_id": "6762ddf4-b864-4f9b-b86d-49288f9e806c",
+		"name": "REST API basics: CRUD, test & variable",
+		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49469631",
+		"_collection_link": "https://www.postman.com/niezaposiadam-8010046/workspace/api-test/collection/49469631-6762ddf4-b864-4f9b-b86d-49288f9e806c?action=share&source=collection_link&creator=49469631"
+	},
+	"item": [
+		{
+			"name": "HTTP Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Sprawdza kod odpowiedzi HTTP",
+							"pm.test(\"Status 200\", () => {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Parsuje JSON odpowiedzi do obiektu JS",
+							"const body = pm.response.json();",
+							"",
+							"// Sprawdza, że w odpowiedzi jest pole 'page' i ma wartość 2",
+							"pm.test(\"Jest 'page' = 2\", () => {",
+							"  pm.expect(body.page).to.eql(2);",
+							"});",
+							"",
+							"// Sprawdza, że pole 'data' jest tablicą i ma co najmniej 1 element",
+							"pm.test(\"Lista 'data' niepusta\", () => {",
+							"  pm.expect(body.data).to.be.an(\"array\").that.is.not.empty;",
+							"});",
+							"",
+							"// Sprawdza, że każdy element ma 'id' i 'email'",
+							"pm.test(\"Każdy user ma id i email\", () => {",
+							"  body.data.forEach(u => {",
+							"    pm.expect(u).to.have.property(\"id\");",
+							"    pm.expect(u).to.have.property(\"email\");",
+							"  });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users?page=2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "Post data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 201\", () => {",
+							"  pm.response.to.have.status(201);",
+							"});",
+							"",
+							"const body = pm.response.json();",
+							"",
+							"// Sprawdzamy, że API zwróciło id (reqres zwraca string)",
+							"pm.test(\"Jest 'id'\", () => {",
+							"  pm.expect(body).to.have.property(\"id\");",
+							"  pm.expect(body.id).to.be.a(\"string\").that.is.not.empty;",
+							"});",
+							"",
+							"// Sprawdzamy echo pól z żądania",
+							"pm.test(\"Zachowany name i job\", () => {",
+							"  pm.expect(body.name).to.eql(\"Enriqe\");",
+							"  pm.expect(body.job).to.eql(\"QA Trainee\");",
+							"});",
+							"",
+							"// Sprawdzamy, że serwer dodał timestamp",
+							"pm.test(\"Jest createdAt (ISO)\", () => {",
+							"  pm.expect(body).to.have.property(\"createdAt\");",
+							"  pm.expect(body.createdAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T/);",
+							"});",
+							"",
+							"// (Opcjonalnie) zapis id do zmiennej środowiskowej",
+							"pm.environment.set(\"user_id\", body.id);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Enriqe\",\n  \"job\": \"QA Trainee\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Update data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 200\", () => {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const body = pm.response.json();",
+							"",
+							"// API odsyła 'updatedAt' – potwierdzenie aktualizacji",
+							"pm.test(\"Jest updatedAt\", () => {",
+							"  pm.expect(body).to.have.property(\"updatedAt\");",
+							"  pm.expect(body.updatedAt).to.match(/^\\d{4}-\\d{2}-\\d{2}T/);",
+							"});",
+							"",
+							"// (Opcjonalnie) sprawdzamy echo pól wejściowych",
+							"pm.test(\"Zaktualizowany job\", () => {",
+							"  pm.expect(body.job).to.eql(\"Junior QA\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Andy\",\n  \"job\": \"Junior QA\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"2"
+					]
+				},
+				"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 204 (no content)\", () => {",
+							"  pm.response.to.have.status(204);",
+							"});",
+							"",
+							"// 204 oznacza brak ciała odpowiedzi",
+							"pm.test(\"Puste body\", () => {",
+							"  pm.expect(pm.response.text()).to.eql(\"\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/2",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"2"
+					]
+				},
+				"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://template.postman-echo.com"
+		}
+	]
+}

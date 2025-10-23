@@ -1,0 +1,200 @@
+{
+	"id": "a18f28b9-7efb-4aeb-b910-28af9f1fb3e6",
+	"name": "REST API basics: CRUD, test & variable",
+	"timestamp": "2025-10-23T13:55:11.574Z",
+	"collection_id": "49469631-6762ddf4-b864-4f9b-b86d-49288f9e806c",
+	"folder_id": 0,
+	"environment_id": "49469631-7ae278a5-d8f5-4870-8d11-d39503e98c39",
+	"totalPass": 13,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-10-23T13:55:10.433Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "334685f3-b91d-4d19-9bed-b9ae7fad20aa",
+			"name": "HTTP Request",
+			"url": "https://reqres.in/api/users?page=2",
+			"time": 17,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Jest 'page' = 2": true,
+				"Lista 'data' niepusta": true,
+				"Każdy user ma id i email": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Jest 'page' = 2": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Lista 'data' niepusta": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Każdy user ma id i email": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Jest 'page' = 2": true,
+					"Lista 'data' niepusta": true,
+					"Każdy user ma id i email": true
+				}
+			]
+		},
+		{
+			"id": "6b6df786-c299-4c93-8f05-039edb52fa91",
+			"name": "Post data",
+			"url": "https://reqres.in/api/users",
+			"time": 147,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status 201": true,
+				"Jest 'id'": true,
+				"Zachowany name i job": true,
+				"Jest createdAt (ISO)": true
+			},
+			"testPassFailCounts": {
+				"Status 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Jest 'id'": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Zachowany name i job": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Jest createdAt (ISO)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				147
+			],
+			"allTests": [
+				{
+					"Status 201": true,
+					"Jest 'id'": true,
+					"Zachowany name i job": true,
+					"Jest createdAt (ISO)": true
+				}
+			]
+		},
+		{
+			"id": "da2244d5-c1cc-474d-a010-47d9f8b326e4",
+			"name": "Update data",
+			"url": "https://reqres.in/api/users/2",
+			"time": 129,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Jest updatedAt": true,
+				"Zaktualizowany job": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Jest updatedAt": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Zaktualizowany job": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				129
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Jest updatedAt": true,
+					"Zaktualizowany job": true
+				}
+			]
+		},
+		{
+			"id": "5d5571f2-3e5e-43ff-95f8-77577307e26f",
+			"name": "Delete data",
+			"url": "https://reqres.in/api/users/2",
+			"time": 51,
+			"responseCode": {
+				"code": 204,
+				"name": "No Content"
+			},
+			"tests": {
+				"Status 204 (no content)": true,
+				"Puste body": true
+			},
+			"testPassFailCounts": {
+				"Status 204 (no content)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Puste body": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				51
+			],
+			"allTests": [
+				{
+					"Status 204 (no content)": true,
+					"Puste body": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 344,
+	"collection": {
+		"requests": [
+			{
+				"id": "334685f3-b91d-4d19-9bed-b9ae7fad20aa",
+				"method": "GET"
+			},
+			{
+				"id": "6b6df786-c299-4c93-8f05-039edb52fa91",
+				"method": "POST"
+			},
+			{
+				"id": "da2244d5-c1cc-474d-a010-47d9f8b326e4",
+				"method": "PUT"
+			},
+			{
+				"id": "5d5571f2-3e5e-43ff-95f8-77577307e26f",
+				"method": "DELETE"
+			}
+		]
+	}
+}
