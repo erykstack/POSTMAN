@@ -1,0 +1,37 @@
+name: Postman API tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  run-postman-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Newman + reporter
+        run: |
+          npm install -g newman newman-reporter-htmlextra
+
+      - name: Run Postman collection with Newman
+        run: |
+          mkdir -p reports
+          newman run ./postman/fakestore.postman_collection.json \
+            -e ./postman/fakestore-env.postman_environment.json \
+            -r htmlextra --reporter-htmlextra-export ./reports/github-report.html
+
+      - name: Upload HTML report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-report
+          path: ./reports/github-report.html
